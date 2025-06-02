@@ -100,8 +100,6 @@ python manage.py createsuperuser
   - начисляет сумму на баланс организации с `payer_inn`
   - логирует изменение баланса (в отдельную таблицу или просто `print` / `log`)
 
----
-
 ### GET `/api/organizations/<inn>/balance/`
 
 Возвращает текущий баланс организации по ИНН:
