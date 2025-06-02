@@ -6,10 +6,10 @@ Payments System — Django Webhook Processor. Тестовое задание
 Backend-сервис для приёма webhook-ов от банка с защитой от повторных операций (дублей) и корректным начислением баланса организации по ИНН.
 
 Реализовано:
-- Приём и обработка webhook от банка (POST /api/webhook/bank/)
+- Приём и обработка webhook от банка (POST `/api/webhook/bank/`)
 - Начисление суммы на баланс организации
 - Защита от повторной обработки одной и той же операции (operation_id)
-- Получение текущего баланса организации по ИНН (GET /api/organizations/<inn>/balance/)
+- Получение текущего баланса организации по ИНН (GET `/api/organizations/<inn>/balance/`)
 
 ## Требования
 
@@ -57,7 +57,6 @@ pip install -r requirements.txt
 ```
 
 Создайте файл .env и заполните его своими данными по образцу:
-
 ```
 MYSQL_NAME=payments_db
 MYSQL_USER=payments_user
@@ -79,12 +78,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### Доступ к админке:
-http://127.0.0.1:8000/admin/
-Логин: admin
-Пароль: eee31415
-
-### POST /api/webhook/bank/
+### POST `/api/webhook/bank/`
 
 #### Пример запроса
 ```json

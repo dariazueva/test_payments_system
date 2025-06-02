@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +14,10 @@ class BankWebhookView(APIView):
         if serializer.is_valid():
             data = serializer.validated_data
             if Payment.objects.filter(operation_id=data["operation_id"]).exists():
-                return Response(status=status.HTTP_200_OK)
+                return Response(
+                    {"detail": "Duplicate operation. Ignored."},
+                    status=status.HTTP_200_OK,
+                )
             with transaction.atomic():
                 Payment.objects.create(**data)
                 organization, _ = Organization.objects.get_or_create(
@@ -31,8 +35,5 @@ class BankWebhookView(APIView):
 
 class OrganizationBalanceView(APIView):
     def get(self, request, inn):
-        try:
-            organization = Organization.objects.get(inn=inn)
-            return Response({"inn": inn, "balance": organization.balance})
-        except Organization.DoesNotExist:
-            return Response({"detail": "Organization not found"}, status=404)
+        organization = get_object_or_404(Organization, inn=inn)
+        return Response({"inn": inn, "balance": organization.balance})
